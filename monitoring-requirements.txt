@@ -1,0 +1,33 @@
+# VideoAI Monitoring Dependencies
+# Dependências necessárias para observabilidade e monitoramento
+
+# OpenTelemetry Core
+opentelemetry-distro==0.45b0
+opentelemetry-api==1.21.0
+opentelemetry-sdk==1.21.0
+
+# OpenTelemetry Exporters
+opentelemetry-exporter-prometheus==1.21.0
+opentelemetry-exporter-jaeger==1.21.0
+opentelemetry-exporter-otlp==1.21.0
+
+# OpenTelemetry Instrumentations
+opentelemetry-instrumentation-fastapi==0.45b0
+opentelemetry-instrumentation-requests==0.45b0
+opentelemetry-instrumentation-psycopg2==0.45b0
+opentelemetry-instrumentation-redis==0.45b0
+opentelemetry-instrumentation-celery==0.45b0
+opentelemetry-instrumentation-asyncpg==0.45b0
+opentelemetry-instrumentation-aiohttp-client==0.45b0
+
+# Prometheus Client
+prometheus-client==0.19.0
+
+# Continuous Profiling
+pyroscope-io==0.8.7
+
+# Structured Logging
+structlog==23.2.0
+
+# HTTP Client for health checks
+httpx==0.25.2

@@ -1,0 +1,109 @@
+{
+	"meta": {
+		"generatedAt": "2025-06-25T01:29:19.133Z",
+		"tasksAnalyzed": 12,
+		"totalTasks": 12,
+		"analysisCount": 12,
+		"thresholdScore": 7,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Project Setup and FastAPI Migration",
+			"complexityScore": 4,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Break down the project setup and migration process into smaller tasks, including repository initialization, project rebranding, dependency installation, and app structure configuration.",
+			"reasoning": "This task involves setting up a new project environment and migrating from Flask to FastAPI, which requires careful planning and execution but is manageable with clear steps."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Asynchronous Processing Infrastructure Setup",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Detail the steps to integrate RabbitMQ, Celery, and Redis, including configuration, sample task creation, and performance validation.",
+			"reasoning": "Implementing asynchronous processing with multiple components introduces complexity in configuration and testing, necessitating a structured approach."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Implement AI Image Generation Service",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Outline tasks for integrating AI providers, developing prompt optimization modules, and setting up batch processing mechanisms.",
+			"reasoning": "Integrating multiple AI services and ensuring efficient image generation requires careful design and testing, adding to the task's complexity."
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "Build Basic Video Creation Engine",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Define tasks for FFmpeg integration, text overlay implementation, transition effects, and video export functionality.",
+			"reasoning": "Creating a video engine involves handling multimedia processing and ensuring compatibility across formats, which adds to the complexity."
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Enhance Video Processing with Advanced Editing",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down tasks for AI-driven scene detection, automatic cuts and transitions, and audio synchronization features.",
+			"reasoning": "Advanced video editing features require sophisticated algorithms and integration, increasing the task's complexity."
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Develop AI-Powered Translation Engine",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Detail tasks for integrating translation models, handling text adaptation, generating subtitles, and incorporating TTS services.",
+			"reasoning": "Developing a translation engine with AI capabilities involves complex integrations and ensuring linguistic accuracy, adding to the complexity."
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Build Content Pipeline Management System",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Outline tasks for workflow definition, batch processing integration, error handling, and template support.",
+			"reasoning": "Managing content pipelines involves orchestrating multiple processes and ensuring reliability, which adds to the task's complexity."
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Implement Social Media Publishing Engine",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Define tasks for building API interfaces, implementing platform-specific adapters, and handling authentication and rate limiting.",
+			"reasoning": "Integrating with multiple social media platforms requires handling diverse APIs and ensuring secure interactions, increasing complexity."
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Optimize Social Media Content Publishing",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down tasks for scheduling algorithms, hashtag and description generation, and content format adaptation.",
+			"reasoning": "Enhancing publishing capabilities with intelligent features requires additional logic and testing, adding to the task's complexity."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Develop Analytics and A/B Testing Engine",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Detail tasks for tracking content metrics, designing A/B testing modules, and providing analytics APIs and dashboards.",
+			"reasoning": "Implementing analytics and A/B testing involves data collection, analysis, and visualization, which are complex tasks."
+		},
+		{
+			"taskId": 11,
+			"taskTitle": "Develop Dashboard and API Gateway",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Outline tasks for setting up API gateway middleware, developing a web dashboard, and integrating webhook systems.",
+			"reasoning": "Building a dashboard and API gateway requires handling user interfaces and backend services, adding to the complexity."
+		},
+		{
+			"taskId": 12,
+			"taskTitle": "Implement Enterprise Features and Advanced Monitoring",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Define tasks for designing multi-tenant architecture, enhancing logging and monitoring, and implementing custom integrations.",
+			"reasoning": "Enterprise-level features and monitoring require robust design and implementation to ensure scalability and reliability."
+		}
+	]
+}

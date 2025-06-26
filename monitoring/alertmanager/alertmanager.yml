@@ -1,0 +1,42 @@
+global:
+  smtp_smarthost: 'localhost:587'
+  smtp_from: 'alertmanager@videoai.local'
+
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 1h
+  receiver: 'web.hook'
+
+receivers:
+- name: 'web.hook'
+  webhook_configs:
+  - url: 'http://host.docker.internal:8000/api/v1/alerts/webhook'
+    send_resolved: true
+
+# Email notifications (configure SMTP settings above)
+- name: 'email-alerts'
+  email_configs:
+  - to: 'admin@videoai.local'
+    subject: 'VideoAI Alert: {{ .GroupLabels.alertname }}'
+    body: |
+      {{ range .Alerts }}
+      Alert: {{ .Annotations.summary }}
+      Description: {{ .Annotations.description }}
+      {{ end }}
+
+# Slack notifications (configure webhook URL)
+- name: 'slack-alerts'
+  slack_configs:
+  - api_url: 'YOUR_SLACK_WEBHOOK_URL'
+    channel: '#videoai-alerts'
+    title: 'VideoAI Alert'
+    text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']

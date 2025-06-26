@@ -1,0 +1,125 @@
+groups:
+- name: videoai_alerts
+  rules:
+  # API Health Alerts
+  - alert: HighErrorRate
+    expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Alta taxa de erro na API VideoAI"
+      description: "Taxa de erro HTTP 5xx está acima de 10% por mais de 2 minutos"
+
+  - alert: HighLatency
+    expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Latência alta detectada"
+      description: "P95 de latência está acima de 2 segundos por mais de 5 minutos"
+
+  # System Resource Alerts
+  - alert: HighCPUUsage
+    expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Alto uso de CPU"
+      description: "CPU usage está acima de 80% por mais de 5 minutos"
+
+  - alert: HighMemoryUsage
+    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Alto uso de memória"
+      description: "Uso de memória está acima de 85% por mais de 5 minutos"
+
+  - alert: LowDiskSpace
+    expr: (1 - (node_filesystem_avail_bytes / node_filesystem_size_bytes)) * 100 > 90
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Pouco espaço em disco"
+      description: "Espaço em disco está acima de 90% de uso por mais de 5 minutos"
+
+  # Database Alerts
+  - alert: PostgreSQLDown
+    expr: up{job="postgres"} == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "PostgreSQL está down"
+      description: "PostgreSQL não está respondendo por mais de 1 minuto"
+
+  - alert: HighDatabaseConnections
+    expr: pg_stat_database_numbackends / pg_settings_max_connections * 100 > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Muitas conexões no PostgreSQL"
+      description: "Número de conexões está acima de 80% do limite por mais de 5 minutos"
+
+  # Redis Alerts
+  - alert: RedisDown
+    expr: up{job="redis"} == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Redis está down"
+      description: "Redis não está respondendo por mais de 1 minuto"
+
+  - alert: RedisHighMemoryUsage
+    expr: redis_memory_used_bytes / redis_memory_max_bytes * 100 > 85
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Alto uso de memória no Redis"
+      description: "Uso de memória do Redis está acima de 85% por mais de 5 minutos"
+
+  # Celery/Queue Alerts
+  - alert: HighQueueDepth
+    expr: celery_queue_length > 100
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Fila Celery com backlog alto"
+      description: "Fila Celery tem mais de 100 tarefas pendentes por mais de 5 minutos"
+
+  - alert: CeleryWorkerDown
+    expr: celery_worker_up == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Worker Celery está down"
+      description: "Worker Celery não está respondendo por mais de 2 minutos"
+
+  # Business Logic Alerts
+  - alert: HighImageGenerationFailureRate
+    expr: rate(image_generation_failures_total[5m]) / rate(image_generation_requests_total[5m]) > 0.1
+    for: 3m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Alta taxa de falha na geração de imagens"
+      description: "Taxa de falha na geração de imagens está acima de 10% por mais de 3 minutos"
+
+  - alert: HighImageGenerationCost
+    expr: rate(image_generation_cost_total[1h]) > 10
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Alto custo de geração de imagens"
+      description: "Custo de geração de imagens está acima de $10/hora por mais de 10 minutos"
