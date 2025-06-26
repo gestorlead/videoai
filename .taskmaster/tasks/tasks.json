@@ -427,7 +427,7 @@
               3
             ],
             "details": "• Use regex search-and-replace (case-insensitive) across code, docs, configs.\n• Rename package directories: videoai → videoai; update all import statements.\n• Update __init__.py for public API exposure.\n• Add app/__main__.py for `python -m videoai` execution.\n• Modify setup.cfg/pyproject.toml to reflect new name and extras.\n<info added on 2025-06-26T22:14:45.407Z>\nRefatoração completa de AutoSub para VideoAI concluída com sucesso.\n\nAÇÕES EXECUTADAS:\n1. ✅ Substituição global de todas as referências:\n   - AutoSub → VideoAI\n   - autosub → videoai  \n   - AUTOSUB → VIDEOAI\n2. ✅ Renomeado arquivos: auto-sub.yaml → video-ai.yaml\n3. ✅ Removido script de rebranding obsoleto (rebrand_to_videoai.py)\n4. ✅ Criado entry point app/__main__.py para execução via \"python -m app\"\n5. ✅ Atualizado app/__init__.py com API pública completa do VideoAI\n6. ✅ Aplicado substituições em scripts shell (.sh)\n7. ✅ Removido cache Python e diretórios temporários\n8. ✅ Limpeza final de todos os diretórios restantes\n\nVERIFICAÇÃO FINAL:\n- **0 referências** a \"autosub\" restantes no código\n- Entry point **funcional** em app/__main__.py\n- __init__.py **atualizado** com metadados VideoAI\n- Workflows GitHub **atualizados** (gestorlead/videoai)\n- Scripts shell **corrigidos**\n\nFUNCIONALIDADES CRIADAS:\n- `python -m app --help` - Entry point com help\n- `python -m app --host localhost --port 8080 --reload` - Desenvolvimento\n- API pública via app.__init__ com version, title, description\n- Imports limpos sem referências legacy\n\nESTRUTURA PACKAGE PYTHON:\n```\napp/\n├── __init__.py     # API pública VideoAI\n├── __main__.py     # Entry point\n├── main.py         # FastAPI app\n└── [outros módulos]\n```\n\nPRONTO PARA PRÓXIMA FASE: Documentação e release v0.2.0\n</info added on 2025-06-26T22:14:45.407Z>",
-            "status": "in-progress",
+            "status": "done",
             "testStrategy": "Execute `grep -Ri 'VideoAI'` to ensure zero matches. Run full `pytest` suite; all tests must pass. Launch `python -m videoai --help` to verify entry-point works."
           },
           {
@@ -438,7 +438,7 @@
               4
             ],
             "details": "• Rewrite README.md with new vision, quick-start, architecture diagram, and updated GitHub URL.\n• Audit /docs for outdated references; update navigation, screenshots, and code snippets.\n• Add comprehensive .gitignore rules for venv/, __pycache__, *.py[co], .env*, .vscode/, *.log.\n• Squash commits as needed (`git rebase -i`), push branch, and open PR.\n• After merge, tag release v0.2.0 and notify team to rebase open PRs.",
-            "status": "pending",
+            "status": "in-progress",
             "testStrategy": "Build docs locally (`mkdocs build` or `sphinx-build`) with zero warnings. Validate that `.gitignore` properly excludes generated artifacts via `git status`. Confirm tag creation with `git tag -l v0.2.0` and that GitHub release notes auto-populate."
           }
         ]
@@ -446,7 +446,7 @@
     ],
     "metadata": {
       "created": "2025-06-25T01:28:55.936Z",
-      "updated": "2025-06-26T22:10:15.121Z",
+      "updated": "2025-06-26T22:16:19.838Z",
       "description": "Tasks for master context"
     }
   }
