@@ -405,7 +405,7 @@
               1
             ],
             "details": "• Use `git mv` to relocate source, tests, docs, scripts, .github workflows, etc.\n• Establish folders: app/, docs/, scripts/, tests/, .github/ at root.\n• Remove paths: videoai/videoai, videoai/app, videoai/src, app/core (old), venv/, __pycache__, *.log, temp/.\n• Commit incrementally to preserve history (`git mv` keeps file history`).\n<info added on 2025-06-26T21:21:43.728Z>\nCOMPLETED - Directory reorganization successfully executed using git mv commands to preserve file history.\n\nACTIONS COMPLETED:\n• Moved all content from videoai/ to root level using git mv\n• Removed duplicate directories (app/core at root)\n• Cleaned up unnecessary directories (venv/, __pycache__, temp/, logs/, uploads/)\n• Removed legacy directories (videoai/src, videoai/api, videoai/videoai)\n• Created docs/reports/ structure for organized documentation\n\nFINAL DIRECTORY STRUCTURE:\n• alembic/ - Database migrations\n• app/ - Main FastAPI application code\n• docs/ - Documentation with reports/ subdirectory\n• examples/ - Usage examples\n• monitoring/ - Monitoring configurations\n• scripts/ - Utility scripts\n• .github/ - CI/CD workflows\n• Root level config files (docker-compose.yml, Dockerfile, requirements.txt)\n\nALL FILES PRESERVED:\n• Complete alembic migration history\n• Full application codebase in app/\n• Documentation and reports properly organized\n• All scripts and examples maintained\n</info added on 2025-06-26T21:21:43.728Z>",
-            "status": "in-progress",
+            "status": "done",
             "testStrategy": "Run `tree -L 1` and check that only the five canonical folders plus config files (.env, Dockerfile, etc.) exist at root. Execute `pytest -q` to ensure test discovery still works (expected failures allowed at this stage but suite must run)."
           },
           {
@@ -415,8 +415,8 @@
             "dependencies": [
               2
             ],
-            "details": "• Merge all .env files, resolving duplicates by keeping latest secure values; place result at /.env.\n• Move docker-compose.yml, Dockerfile, Makefile, pre-commit config, and CI workflows to root; adjust relative paths.\n• Add lint (ruff/flake8), formatter (black), and type-checker (mypy) settings into pyproject.toml.\n• Create regenerate-venv.sh for reproducible environment recreation.",
-            "status": "pending",
+            "details": "• Merge all .env files, resolving duplicates by keeping latest secure values; place result at /.env.\n• Move docker-compose.yml, Dockerfile, Makefile, pre-commit config, and CI workflows to root; adjust relative paths.\n• Add lint (ruff/flake8), formatter (black), and type-checker (mypy) settings into pyproject.toml.\n• Create regenerate-venv.sh for reproducible environment recreation.\n<info added on 2025-06-26T21:54:56.385Z>\nConsolidação de configurações e ferramentas de desenvolvimento concluída com sucesso.\n\nAÇÕES EXECUTADAS:\n• Consolidado arquivo .env único e completo com todas as variáveis necessárias (aplicação, APIs de IA, banco de dados, cache, segurança, redes sociais, monitoramento)\n• Atualizado requirements.txt com versão mais completa (70 dependências)\n• Criado pyproject.toml com configurações completas para Black (formatação), Ruff (linting), MyPy (type checking), Pytest (testes) e metadados do projeto\n• Criado script regenerate-venv.sh para setup automático do ambiente\n• Atualizado .gitignore com regras abrangentes\n• Removido arquivos __pycache__ do controle de versão\n• Validado docker-compose.yml sem erros\n\nFERRAMENTAS CONFIGURADAS:\n• Black: Formatação automática de código (line-length: 88)\n• Ruff: Linting rápido com regras essenciais (E, W, F, I, B, C4, UP)\n• MyPy: Type checking para qualidade de código\n• Pytest: Framework de testes com configurações otimizadas\n</info added on 2025-06-26T21:54:56.385Z>",
+            "status": "in-progress",
             "testStrategy": "Run `docker-compose config` without errors, execute `pre-commit run --all-files`, `black --check .`, `ruff .`, and `mypy app/` to ensure tooling functions with no path issues."
           },
           {
@@ -446,7 +446,7 @@
     ],
     "metadata": {
       "created": "2025-06-25T01:28:55.936Z",
-      "updated": "2025-06-26T21:18:53.633Z",
+      "updated": "2025-06-26T21:51:23.870Z",
       "description": "Tasks for master context"
     }
   }
