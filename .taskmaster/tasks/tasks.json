@@ -27,7 +27,7 @@
             "dependencies": [
               1
             ],
-            "details": "Modify project names, logos, and other branding elements in the codebase and documentation.\n<info added on 2025-06-25T01:39:33.961Z>\n✅ Rebranding completo realizado com sucesso!\n\nAções executadas:\n- ✅ Renomeada pasta autosub/ → videoai/\n- ✅ Atualizados 6 arquivos principais via script Python automatizado\n- ✅ Repositório Git interno conflitante removido\n- ✅ README.md profissional criado para VideoAI\n- ✅ Todas as referências substituídas: AutoSub → VideoAI\n- ✅ Docker containers rebrandizados\n- ✅ Banco de dados e configurações ajustadas\n- ✅ Commit realizado preservando histórico\n\nResultado: projeto totalmente rebrandizado para VideoAI, com identidade visual e técnica coerente com a nova plataforma de IA para criação de vídeos e publicações em redes sociais.\n</info added on 2025-06-25T01:39:33.961Z>",
+            "details": "Modify project names, logos, and other branding elements in the codebase and documentation.\n<info added on 2025-06-25T01:39:33.961Z>\n✅ Rebranding completo realizado com sucesso!\n\nAções executadas:\n- ✅ Renomeada pasta videoai/ → videoai/\n- ✅ Atualizados 6 arquivos principais via script Python automatizado\n- ✅ Repositório Git interno conflitante removido\n- ✅ README.md profissional criado para VideoAI\n- ✅ Todas as referências substituídas: VideoAI → VideoAI\n- ✅ Docker containers rebrandizados\n- ✅ Banco de dados e configurações ajustadas\n- ✅ Commit realizado preservando histórico\n\nResultado: projeto totalmente rebrandizado para VideoAI, com identidade visual e técnica coerente com a nova plataforma de IA para criação de vídeos e publicações em redes sociais.\n</info added on 2025-06-25T01:39:33.961Z>",
             "status": "done",
             "testStrategy": ""
           },
@@ -377,11 +377,76 @@
         ],
         "status": "pending",
         "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Restructure Project Directory and Codebase for VideoAI",
+        "description": "Move all project assets to the repository root, eliminate duplicated/obsolete files, standardize configuration, and rename every 'VideoAI' reference to 'VideoAI'.",
+        "details": "1. Create a dedicated *restructure* branch from the latest *main* to avoid disrupting ongoing work.\n\n2. Directory flattening\n   • Move everything inside /videoai to the repository root.\n   • Establish canonical top-level folders:\n     └── app/            (backend source)\n     └── docs/           (MkDocs, Sphinx or MD files)\n     └── scripts/        (CLI/utility scripts)\n     └── tests/          (pytest suites)\n     └── .github/        (CI workflows)\n   • Delete duplicated or legacy paths such as videoai/videoai, videoai/app, videoai/src, app/core at root, residual venv/, __pycache__, *.log, temp/ etc.\n\n3. Configuration consolidation\n   • Keep a single .env in the repo root – merge keys found in other .env files, keeping the most recent/secure values.\n   • Relocate docker-compose.yml, Dockerfile, Makefile, pre-commit config, and CI workflows to root; update relative paths inside each file.\n\n4. Codebase refactor\n   • Run a recursive search-and-replace to change all string and path occurrences of \"VideoAI\" (any casing) to \"VideoAI\".\n   • Update Python package name and imports:\n        from videoai...  ➜  from videoai...\n     Adjust __init__.py in app/ to expose the public API.\n   • Add an app/__main__.py entry-point for `python -m videoai` convenience.\n   • Ensure setup.cfg/pyproject.toml reflects the new package path and extras.\n\n5. Documentation update\n   • Rewrite README.md: project vision, quick-start, architecture diagram, contributing guide, new GitHub URL https://github.com/gestorlead/videoai.git.\n   • Audit /docs for any outdated screenshots, links or code snippets; update navigation and index.\n\n6. Tooling\n   • Add linting (ruff or flake8), formatting (black), and type checking (mypy) configs in pyproject.toml.\n   • Prepare a regenerate-venv.sh script that builds a fresh, reproducible virtual environment after the move.\n\n7. Git hygiene\n   • Add .gitignore rules for venv/, __pycache__, *.py[co], .env*, .vscode/, *.log.\n   • Squash commits if desired, then open a PR for team review.\n\n8. Post-merge actions\n   • Notify the team and update any open PRs to rebase against the new structure.\n   • Tag release v0.2.0 to mark the structural overhaul.",
+        "testStrategy": "1. Run `pytest -q` – all unit/integration tests must pass without path errors.\n2. Execute `python -m videoai --help` to confirm the package entry-point is discoverable.\n3. Build Docker image: `docker compose build && docker compose up -d`; container must start without missing-file or import exceptions.\n4. Lint & type check: `ruff .`, `black --check .`, `mypy app/` – expect zero errors.\n5. Search for forbidden strings:\n      git grep -i \"videoai\"  ➜  should return no matches.\n6. Verify only one .env exists at repo root and contains merged, non-duplicated keys.\n7. `git ls-files | grep -E \"(__pycache__|\\.py[co]|venv)\"` should yield nothing.\n8. Manual review of README and docs: all links resolve and reference VideoAI.\n9. CI pipeline (GitHub Actions) runs green on the restructure branch.",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Branch Creation and Project Inventory",
+            "description": "Create a dedicated 'restructure' branch from the latest 'main' and generate a comprehensive inventory of all files/directories, highlighting duplicates, obsolete assets, and legacy paths to be removed.",
+            "dependencies": [],
+            "details": "• git checkout -b restructure\n• Use scripts (e.g., fdupes, custom Python) to detect duplicate files and produce a CSV/markdown report.\n• Document current directory tree with `tree -L 2` for baseline comparison.\n• Share inventory report with team for quick validation before proceeding.\n<info added on 2025-06-26T21:16:07.880Z>\nComplete inventory executed and documented in PROJECT_INVENTORY_REPORT.md with key findings:\n\nMain discoveries:\n- Primary 'videoai/' directory contains entire application (needs root-level move)\n- Duplicate 'app/core/' directory at root with single celery.py file\n- 4 .env files scattered across project\n- 70 \"VideoAI\" references found throughout codebase\n- venv/ directory incorrectly placed inside videoai/ (should be excluded from repo)\n- Confusing nested structure: videoai/videoai/app/\n\nCritical files identified for preservation:\n- videoai/alembic/ - Database migrations\n- videoai/docker-compose.yml - Docker configuration\n- videoai/app/ - Main FastAPI application code\n- videoai/src/ - Legacy code requiring analysis\n\nReady for file movement phase with complete baseline documentation and dedicated restructure branch established.\n</info added on 2025-06-26T21:16:07.880Z>",
+            "status": "done",
+            "testStrategy": "Confirm branch existence via `git branch --show-current` == 'restructure'. Validate that inventory report lists every top-level path and flags >90% of known duplicates (spot-check sample paths)."
+          },
+          {
+            "id": 2,
+            "title": "Directory Flattening and Cleanup",
+            "description": "Move all project assets from /videoai to the repository root, create canonical folders, and delete duplicated or obsolete files/directories identified in subtask 1.",
+            "dependencies": [
+              1
+            ],
+            "details": "• Use `git mv` to relocate source, tests, docs, scripts, .github workflows, etc.\n• Establish folders: app/, docs/, scripts/, tests/, .github/ at root.\n• Remove paths: videoai/videoai, videoai/app, videoai/src, app/core (old), venv/, __pycache__, *.log, temp/.\n• Commit incrementally to preserve history (`git mv` keeps file history`).\n<info added on 2025-06-26T21:21:43.728Z>\nCOMPLETED - Directory reorganization successfully executed using git mv commands to preserve file history.\n\nACTIONS COMPLETED:\n• Moved all content from videoai/ to root level using git mv\n• Removed duplicate directories (app/core at root)\n• Cleaned up unnecessary directories (venv/, __pycache__, temp/, logs/, uploads/)\n• Removed legacy directories (videoai/src, videoai/api, videoai/videoai)\n• Created docs/reports/ structure for organized documentation\n\nFINAL DIRECTORY STRUCTURE:\n• alembic/ - Database migrations\n• app/ - Main FastAPI application code\n• docs/ - Documentation with reports/ subdirectory\n• examples/ - Usage examples\n• monitoring/ - Monitoring configurations\n• scripts/ - Utility scripts\n• .github/ - CI/CD workflows\n• Root level config files (docker-compose.yml, Dockerfile, requirements.txt)\n\nALL FILES PRESERVED:\n• Complete alembic migration history\n• Full application codebase in app/\n• Documentation and reports properly organized\n• All scripts and examples maintained\n</info added on 2025-06-26T21:21:43.728Z>",
+            "status": "done",
+            "testStrategy": "Run `tree -L 1` and check that only the five canonical folders plus config files (.env, Dockerfile, etc.) exist at root. Execute `pytest -q` to ensure test discovery still works (expected failures allowed at this stage but suite must run)."
+          },
+          {
+            "id": 3,
+            "title": "Configuration Consolidation and Tooling Setup",
+            "description": "Merge scattered configuration files into single sources of truth at repo root and introduce standardized development tooling.",
+            "dependencies": [
+              2
+            ],
+            "details": "• Merge all .env files, resolving duplicates by keeping latest secure values; place result at /.env.\n• Move docker-compose.yml, Dockerfile, Makefile, pre-commit config, and CI workflows to root; adjust relative paths.\n• Add lint (ruff/flake8), formatter (black), and type-checker (mypy) settings into pyproject.toml.\n• Create regenerate-venv.sh for reproducible environment recreation.\n<info added on 2025-06-26T21:54:56.385Z>\nConsolidação de configurações e ferramentas de desenvolvimento concluída com sucesso.\n\nAÇÕES EXECUTADAS:\n• Consolidado arquivo .env único e completo com todas as variáveis necessárias (aplicação, APIs de IA, banco de dados, cache, segurança, redes sociais, monitoramento)\n• Atualizado requirements.txt com versão mais completa (70 dependências)\n• Criado pyproject.toml com configurações completas para Black (formatação), Ruff (linting), MyPy (type checking), Pytest (testes) e metadados do projeto\n• Criado script regenerate-venv.sh para setup automático do ambiente\n• Atualizado .gitignore com regras abrangentes\n• Removido arquivos __pycache__ do controle de versão\n• Validado docker-compose.yml sem erros\n\nFERRAMENTAS CONFIGURADAS:\n• Black: Formatação automática de código (line-length: 88)\n• Ruff: Linting rápido com regras essenciais (E, W, F, I, B, C4, UP)\n• MyPy: Type checking para qualidade de código\n• Pytest: Framework de testes com configurações otimizadas\n</info added on 2025-06-26T21:54:56.385Z>",
+            "status": "done",
+            "testStrategy": "Run `docker-compose config` without errors, execute `pre-commit run --all-files`, `black --check .`, `ruff .`, and `mypy app/` to ensure tooling functions with no path issues."
+          },
+          {
+            "id": 4,
+            "title": "Codebase Refactor from 'VideoAI' to 'VideoAI'",
+            "description": "Replace all references to 'VideoAI' with 'VideoAI', update Python package structure, and add new entry points.",
+            "dependencies": [
+              3
+            ],
+            "details": "• Use regex search-and-replace (case-insensitive) across code, docs, configs.\n• Rename package directories: videoai → videoai; update all import statements.\n• Update __init__.py for public API exposure.\n• Add app/__main__.py for `python -m videoai` execution.\n• Modify setup.cfg/pyproject.toml to reflect new name and extras.\n<info added on 2025-06-26T22:14:45.407Z>\nRefatoração completa de AutoSub para VideoAI concluída com sucesso.\n\nAÇÕES EXECUTADAS:\n1. ✅ Substituição global de todas as referências:\n   - AutoSub → VideoAI\n   - autosub → videoai  \n   - AUTOSUB → VIDEOAI\n2. ✅ Renomeado arquivos: auto-sub.yaml → video-ai.yaml\n3. ✅ Removido script de rebranding obsoleto (rebrand_to_videoai.py)\n4. ✅ Criado entry point app/__main__.py para execução via \"python -m app\"\n5. ✅ Atualizado app/__init__.py com API pública completa do VideoAI\n6. ✅ Aplicado substituições em scripts shell (.sh)\n7. ✅ Removido cache Python e diretórios temporários\n8. ✅ Limpeza final de todos os diretórios restantes\n\nVERIFICAÇÃO FINAL:\n- **0 referências** a \"autosub\" restantes no código\n- Entry point **funcional** em app/__main__.py\n- __init__.py **atualizado** com metadados VideoAI\n- Workflows GitHub **atualizados** (gestorlead/videoai)\n- Scripts shell **corrigidos**\n\nFUNCIONALIDADES CRIADAS:\n- `python -m app --help` - Entry point com help\n- `python -m app --host localhost --port 8080 --reload` - Desenvolvimento\n- API pública via app.__init__ com version, title, description\n- Imports limpos sem referências legacy\n\nESTRUTURA PACKAGE PYTHON:\n```\napp/\n├── __init__.py     # API pública VideoAI\n├── __main__.py     # Entry point\n├── main.py         # FastAPI app\n└── [outros módulos]\n```\n\nPRONTO PARA PRÓXIMA FASE: Documentação e release v0.2.0\n</info added on 2025-06-26T22:14:45.407Z>",
+            "status": "done",
+            "testStrategy": "Execute `grep -Ri 'VideoAI'` to ensure zero matches. Run full `pytest` suite; all tests must pass. Launch `python -m videoai --help` to verify entry-point works."
+          },
+          {
+            "id": 5,
+            "title": "Documentation, Git Hygiene, and Release Preparation",
+            "description": "Refresh documentation, update .gitignore, clean commit history, open PR, and prepare v0.2.0 release tag.",
+            "dependencies": [
+              4
+            ],
+            "details": "• Rewrite README.md with new vision, quick-start, architecture diagram, and updated GitHub URL.\n• Audit /docs for outdated references; update navigation, screenshots, and code snippets.\n• Add comprehensive .gitignore rules for venv/, __pycache__, *.py[co], .env*, .vscode/, *.log.\n• Squash commits as needed (`git rebase -i`), push branch, and open PR.\n• After merge, tag release v0.2.0 and notify team to rebase open PRs.",
+            "status": "in-progress",
+            "testStrategy": "Build docs locally (`mkdocs build` or `sphinx-build`) with zero warnings. Validate that `.gitignore` properly excludes generated artifacts via `git status`. Confirm tag creation with `git tag -l v0.2.0` and that GitHub release notes auto-populate."
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-06-25T01:28:55.936Z",
-      "updated": "2025-06-26T01:21:43.170Z",
+      "updated": "2025-06-26T22:16:19.838Z",
       "description": "Tasks for master context"
     }
   }

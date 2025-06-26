@@ -1,0 +1,53 @@
+version: "3.7"
+
+# Definição dos Serviços
+services:
+  videoai:
+    # Define a imagem do docker
+    image: qqenglishbr/videoai-web:latest
+
+    # Definição das redes usadas
+    networks:
+      - network_public
+
+    environment:
+      - FLASK_SECRET_KEY=e3ac3d46-20e1-4a43-8c8f-230e142a3df4
+      - BASIC_AUTH_USERNAME=paula
+      - BASIC_AUTH_PASSWORD=Srgn1t1i@99
+      - GOOGLE_TRANSLATE_API_KEY=AIzaSyDEftIjR9bEPwvEZ-va2E8PUS00gikWozc
+
+    deploy:
+      # modo de deploy do serviço
+      mode: replicated # (replicated ou global)
+      # Define as replicas (somente no modo replicated)
+      replicas: 1 # quantidade de replicas
+      # local de deploy do serviço
+      placement:
+        # regras de posicionamento do serviço
+        constraints:
+          # usa o tipo do node (manager ou worker)
+          - node.hostname == worker1 # hosts que não são manager
+      # Limita recursos do serviço
+      resources:
+        #  Define os limites do serviço
+        limits:
+          # quantodade de CPU (1 para 1 cpu inteira)
+          cpus: "1"
+          # Quantidade Máxima de Memória Permitida (em MB)
+          memory: 1024M
+      # Labels para Roteamento pelo Traefik
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.videoai.rule=Host(`sm.qqeng.me`)
+        - traefik.http.routers.videoai.entrypoints=websecure
+        - traefik.http.routers.videoai.priority=1
+        - traefik.http.routers.videoai.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.videoai.service=videoai
+        - traefik.http.services.videoai.loadbalancer.server.port=5000
+        - traefik.http.services.videoai.loadbalancer.passHostHeader=true
+
+# Definição das Redes
+networks:
+  network_public:
+    name: network_public
+    external: true

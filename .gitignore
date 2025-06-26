@@ -1,27 +1,100 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-dev-debug.log
+# VideoAI - Python .gitignore
 
-# Dependency directories
-node_modules/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Environment variables
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
 .env
+.env.local
+.env.development
+.env.test
+.env.production
+.venv
+env/
+venv/
+ENV/
 
-# Editor directories and files
-.idea
-.vscode
-.cursor
-.taskmaster
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
 
-# OS specific
+# VideoAI Specific
+logs/
+*.log
+videoai.log
+gunicorn.log
+uploads/
+temp/
+processed_videos/
+api_jobs/
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
 .DS_Store
+Thumbs.db
+
+# Development tools
+.pre-commit-cache/
+
+# Backup files
+*.backup
+*.bak
+
+# Temporary files
+tmp/
+*.tmp
+
+# Media files (large)
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.wav
+*.mp3
+*.flac
+
+# Test artifacts
+.pytest_cache/
+
+# Configuration overrides
+docker-compose.override.yml
+.env.override

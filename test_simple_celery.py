@@ -7,7 +7,7 @@ import os
 import time
 
 # Adicionar o diretório do projeto ao Python path
-sys.path.insert(0, '/root/projetos/autosub-web')
+sys.path.insert(0, '/root/projetos/videoai-web')
 
 try:
     from app.tasks.simple_tasks import simple_add, simple_hello, simple_multiply
