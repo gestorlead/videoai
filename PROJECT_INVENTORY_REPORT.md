@@ -5,7 +5,7 @@
 
 ## 🗂️ Current Structure Overview
 
-### Root Directory (/root/projetos/autosub-web/)
+### Root Directory (/root/projetos/videoai-web/)
 ```
 ├── .taskmaster/         # TaskMaster project management
 ├── app/                 # Duplicate/Legacy directory
@@ -44,7 +44,7 @@ Contains the entire application codebase that should be moved to root:
 - /videoai/.env - Project environment file
 - /videoai/.env.backup - Backup file
 
-### 3. **AutoSub References**
+### 3. **VideoAI References**
 - **70 occurrences** found across Python, YAML, and documentation files
 - Main files affected:
   - auto-sub.yaml - Docker compose configuration
@@ -62,7 +62,7 @@ Contains the entire application codebase that should be moved to root:
 | Category | Count |
 |----------|-------|
 | Total .env files | 4 |
-| AutoSub references | 70 |
+| VideoAI references | 70 |
 | Duplicate app directories | 3 |
 | Files to be moved | ~1000+ |
 | Legacy directories | 2 (src/, api/) |
@@ -72,7 +72,7 @@ Contains the entire application codebase that should be moved to root:
 1. **Move** all contents from /videoai/ to root
 2. **Delete** duplicate directories and files
 3. **Merge** .env files into single root .env
-4. **Replace** all AutoSub references with VideoAI
+4. **Replace** all VideoAI references with VideoAI
 5. **Clean** unnecessary files (venv, cache, logs)
 6. **Update** all imports and paths
 
@@ -88,7 +88,7 @@ Contains the entire application codebase that should be moved to root:
 1. Create backup of current state
 2. Begin systematic directory flattening
 3. Update configuration files
-4. Search and replace AutoSub → VideoAI
+4. Search and replace VideoAI → VideoAI
 5. Test all functionality after restructuring
 
 ---

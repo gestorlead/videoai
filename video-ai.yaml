@@ -2,9 +2,9 @@ version: "3.7"
 
 # Definição dos Serviços
 services:
-  autosub:
+  videoai:
     # Define a imagem do docker
-    image: qqenglishbr/autosub-web:latest
+    image: qqenglishbr/videoai-web:latest
 
     # Definição das redes usadas
     networks:
@@ -38,13 +38,13 @@ services:
       # Labels para Roteamento pelo Traefik
       labels:
         - traefik.enable=true
-        - traefik.http.routers.autosub.rule=Host(`sm.qqeng.me`)
-        - traefik.http.routers.autosub.entrypoints=websecure
-        - traefik.http.routers.autosub.priority=1
-        - traefik.http.routers.autosub.tls.certresolver=letsencryptresolver
-        - traefik.http.routers.autosub.service=autosub
-        - traefik.http.services.autosub.loadbalancer.server.port=5000
-        - traefik.http.services.autosub.loadbalancer.passHostHeader=true
+        - traefik.http.routers.videoai.rule=Host(`sm.qqeng.me`)
+        - traefik.http.routers.videoai.entrypoints=websecure
+        - traefik.http.routers.videoai.priority=1
+        - traefik.http.routers.videoai.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.videoai.service=videoai
+        - traefik.http.services.videoai.loadbalancer.server.port=5000
+        - traefik.http.services.videoai.loadbalancer.passHostHeader=true
 
 # Definição das Redes
 networks:

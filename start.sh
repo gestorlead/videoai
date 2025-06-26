@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Iniciando o sistema AutoSub..."
+echo "🚀 Iniciando o sistema VideoAI..."
 echo "------------------------------"
 
 # Verificar se temos o Docker e Docker Compose instalados
@@ -24,7 +24,7 @@ chmod -R 777 uploads
 
 # Verificar se há containers antigos rodando
 echo "🔄 Verificando containers antigos..."
-if docker ps -q --filter "name=autosub" | grep -q .; then
+if docker ps -q --filter "name=videoai" | grep -q .; then
     echo "🛑 Parando containers antigos..."
     docker-compose down
 fi
@@ -42,13 +42,13 @@ echo "⏳ Aguardando inicialização completa..."
 sleep 15
 
 # Verificar se os containers estão rodando
-if ! docker ps | grep -q "autosub_app"; then
+if ! docker ps | grep -q "videoai_app"; then
     echo "❌ Container da aplicação não está rodando. Verificando logs..."
     docker-compose logs app
     exit 1
 fi
 
-if ! docker ps | grep -q "autosub_db"; then
+if ! docker ps | grep -q "videoai_db"; then
     echo "❌ Container do banco de dados não está rodando. Verificando logs..."
     docker-compose logs db
     exit 1
@@ -65,10 +65,10 @@ fi
 
 # Verificar logs da aplicação
 echo "📋 Logs da aplicação:"
-docker logs autosub_app_1 | tail -n 20
+docker logs videoai_app_1 | tail -n 20
 
 echo ""
-echo "✅ Sistema AutoSub iniciado com sucesso!"
+echo "✅ Sistema VideoAI iniciado com sucesso!"
 echo "📊 Dashboard disponível em: http://localhost:5000"
 echo "🔐 Credenciais padrão: admin / admin123"
 echo "------------------------------"

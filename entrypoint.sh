@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Iniciando o AutoSub..."
+echo "🚀 Iniciando o VideoAI..."
 
 # Aguardar PostgreSQL estar pronto
 echo "⏳ Aguardando conexão com o banco de dados..."
@@ -13,12 +13,12 @@ echo "✅ Conexão com o banco de dados estabelecida!"
 export PGPASSWORD=postgres
 
 # Verificar se o banco de dados existe, se não, criá-lo
-echo "🔧 Verificando se o banco de dados 'autosub' existe..."
-if ! psql -h db -U postgres -lqt | cut -d \| -f 1 | grep -qw autosub; then
-    echo "📦 Criando banco de dados 'autosub'..."
-    psql -h db -U postgres -c "CREATE DATABASE autosub;"
+echo "🔧 Verificando se o banco de dados 'videoai' existe..."
+if ! psql -h db -U postgres -lqt | cut -d \| -f 1 | grep -qw videoai; then
+    echo "📦 Criando banco de dados 'videoai'..."
+    psql -h db -U postgres -c "CREATE DATABASE videoai;"
 else
-    echo "✅ Banco de dados 'autosub' já existe."
+    echo "✅ Banco de dados 'videoai' já existe."
 fi
 
 # Executar todas as migrações

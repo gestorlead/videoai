@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🐳 Iniciando AutoSub no Docker com Health Checks..."
+echo "🐳 Iniciando VideoAI no Docker com Health Checks..."
 
 # Função para parar todos os processos em caso de interrupção
 cleanup() {
@@ -149,7 +149,7 @@ echo "✅ Todos os processos iniciados:"
 echo "   - Worker de áudio (PID: $AUDIO_WORKER_PID)"
 echo "   - Worker de vídeo (PID: $VIDEO_WORKER_PID)"
 echo "   - Aplicação principal (PID: $APP_PID)"
-echo "   - AutoSub rodando em http://localhost:5000"
+echo "   - VideoAI rodando em http://localhost:5000"
 
 # Aguardar todos os processos
 wait $AUDIO_WORKER_PID $VIDEO_WORKER_PID $APP_PID 

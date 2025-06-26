@@ -11,7 +11,7 @@ from datetime import datetime
 def create_frontend_structure():
     """Cria a estrutura básica do projeto frontend"""
     
-    base_dir = "/tmp/autosub-web"
+    base_dir = "/tmp/videoai-web"
     
     # Criar estrutura de diretórios
     directories = [
@@ -30,9 +30,9 @@ def create_frontend_structure():
     
     # 1. Package.json
     package_json = {
-        "name": "autosub-web",
+        "name": "videoai-web",
         "version": "1.0.0",
-        "description": "AutoSub Web Interface - Frontend para consumir AutoSub API",
+        "description": "VideoAI Web Interface - Frontend para consumir VideoAI API",
         "main": "src/index.js",
         "scripts": {
             "dev": "vite",
@@ -51,7 +51,7 @@ def create_frontend_structure():
             "@vitejs/plugin-vue": "^4.5.0",
             "vite": "^5.0.0"
         },
-        "keywords": ["autosub", "subtitles", "video", "transcription", "vue"],
+        "keywords": ["videoai", "subtitles", "video", "transcription", "vue"],
         "author": "GestorLead",
         "license": "MIT"
     }
@@ -89,7 +89,7 @@ export default defineConfig({
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoSub - Geração Automática de Legendas</title>
+    <title>VideoAI - Geração Automática de Legendas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -330,12 +330,12 @@ services:
       - api
   
   api:
-    image: gestorlead/autosub-api:latest
+    image: gestorlead/videoai-api:latest
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/autosub
-      - CORS_ORIGINS=http://localhost:3000,https://autosub.com
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/videoai
+      - CORS_ORIGINS=http://localhost:3000,https://videoai.com
     depends_on:
       - db
       - redis
@@ -343,7 +343,7 @@ services:
   db:
     image: postgres:13
     environment:
-      - POSTGRES_DB=autosub
+      - POSTGRES_DB=videoai
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
@@ -359,9 +359,9 @@ volumes:
         f.write(docker_compose)
     
     # 9. README
-    readme = f'''# AutoSub Web
+    readme = f'''# VideoAI Web
 
-Interface web moderna para o AutoSub API.
+Interface web moderna para o VideoAI API.
 
 ## 🚀 Tecnologias
 
@@ -396,7 +396,7 @@ VITE_API_URL=http://localhost:5000/api/v1
 
 ```bash
 # Build da imagem
-docker build -t autosub-web .
+docker build -t videoai-web .
 
 # Executar com docker-compose
 docker-compose up -d

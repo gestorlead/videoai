@@ -106,7 +106,7 @@ def create_admin_user():
         
         # Criar novo admin
         username = input("📝 Username do admin: ") or "admin"
-        email = input("📧 Email do admin: ") or "admin@autosub.com"
+        email = input("📧 Email do admin: ") or "admin@videoai.com"
         password = input("🔒 Senha do admin: ") or "admin123"
         
         user = User.create(
@@ -131,7 +131,7 @@ def create_admin_user():
 
 def main():
     """Função principal"""
-    print("🚀 AutoSub - Configuração Inicial da API")
+    print("🚀 VideoAI - Configuração Inicial da API")
     print("═══════════════════════════════════════\n")
     
     # Verificar se precisa criar usuário admin

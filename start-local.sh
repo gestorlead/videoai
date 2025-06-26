@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Iniciando o sistema AutoSub localmente..."
+echo "🚀 Iniciando o sistema VideoAI localmente..."
 echo "------------------------------"
 
 # Verificar se temos Python instalado
@@ -33,7 +33,7 @@ source venv/bin/activate
 
 # Instalar dependências
 echo "📦 Instalando dependências..."
-pip install -e git+https://github.com/agermanidis/autosub.git#egg=autosub
+pip install -e git+https://github.com/agermanidis/videoai.git#egg=videoai
 pip install Flask flask-basicauth gunicorn python-dotenv psycopg2-binary requests \
     PyYAML Werkzeug==2.3.7 youtube-dl bootstrap-flask Flask-SQLAlchemy Flask-Migrate \
     Flask-Login Flask-WTF email_validator Flask-Moment
@@ -54,7 +54,7 @@ export PYTHONPATH=.
 if ! command -v psql &> /dev/null; then
     echo "⚠️ PostgreSQL não está instalado localmente. Usando banco de dados SQLite."
     export DB_TYPE=sqlite
-    export DB_PATH="./autosub.db"
+    export DB_PATH="./videoai.db"
 else
     echo "🐘 Verificando PostgreSQL local..."
     if pg_isready &> /dev/null; then
@@ -66,7 +66,7 @@ else
         else
             echo "⚠️ Não foi possível iniciar o PostgreSQL. Usando SQLite."
             export DB_TYPE=sqlite
-            export DB_PATH="./autosub.db"
+            export DB_PATH="./videoai.db"
         fi
     fi
 fi

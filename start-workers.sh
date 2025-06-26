@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Iniciando workers do AutoSub..."
+echo "🚀 Iniciando workers do VideoAI..."
 
 # Função para parar workers em caso de interrupção
 cleanup() {
