@@ -127,15 +127,26 @@
       {
         "id": 3,
         "title": "Implement AI Image Generation Service",
-        "description": "Create the Image Generation Orchestrator integrating multiple AI providers such as DALL-E 3 and Stable Diffusion with prompt optimization and batched processing.",
-        "details": "Develop modules to communicate with OpenAI DALL-E 3 API and Stability AI endpoints. Implement intelligent prompt parser and optimizer. Build a mechanism to trigger batch image generation with options for upscaling and post-processing. Use async HTTP client for API calls.",
-        "testStrategy": "Write integration tests to simulate API calls using mocks; validate that images are returned and processed. Check batch processing performance and image quality outputs.",
-        "priority": "high",
+        "description": "Create the Image Generation Orchestrator integrating multiple AI providers such as DALL-E 3 and PiAPI with prompt optimization and batched processing.",
+        "status": "pending",
         "dependencies": [
           2
         ],
-        "status": "pending",
+        "priority": "high",
+        "details": "Develop modules to communicate with OpenAI DALL-E 3 API and PiAPI endpoints. Implement intelligent prompt parser and optimizer. Build a mechanism to trigger batch image generation with options for upscaling and post-processing. Use async HTTP client for API calls.",
+        "testStrategy": "Write integration tests to simulate API calls using mocks; validate that images are returned and processed. Check batch processing performance and image quality outputs.",
         "subtasks": [
+          {
+            "id": 7,
+            "title": "Remove Stable Diffusion Integration",
+            "description": "Remove all Stable Diffusion references and integrations from the VideoAI system, maintaining only OpenAI DALL-E and PiAPI as image generation providers.",
+            "status": "pending",
+            "dependencies": [
+              1
+            ],
+            "details": "Clean up all code, documentation, and configuration files to remove Stable Diffusion provider implementation. Update provider manager to work with only OpenAI and PiAPI providers. Ensure all fallback mechanisms and routing logic are updated accordingly. Update documentation to reflect the new two-provider architecture.",
+            "testStrategy": "Verify that all Stable Diffusion references are removed from codebase. Test that the system works correctly with only OpenAI and PiAPI providers. Validate fallback mechanisms between the two remaining providers. Ensure documentation accurately reflects the current provider setup."
+          },
           {
             "id": 1,
             "title": "Integrate AI Providers",
