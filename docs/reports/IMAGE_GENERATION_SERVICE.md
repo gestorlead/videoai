@@ -4,30 +4,25 @@
 
 O serviço de geração de imagens permite criar imagens usando múltiplos provedores de IA, com suporte a fallback automático, monitoramento de custos e créditos.
 
-## Provedores Suportados
+## Providers Implementados
 
-### 1. **OpenAI (DALL-E 2/3 e GPT-4 Vision)**
-- **DALL-E 2**: $0.016-$0.020 por imagem
-- **DALL-E 3**: $0.040-$0.080 por imagem
-- **GPT-4 Vision**: $0.01 base + $0.005 por imagem analisada
-- **Qualidade**: Alta, especialmente para prompts complexos
-- **Tamanhos**: 256x256, 512x512, 1024x1024 (DALL-E 2); 1024x1024, 1024x1792, 1792x1024 (DALL-E 3)
-- **Vantagens**: 
-  - Melhor entendimento de texto
-  - Qualidade consistente
-  - GPT-4 Vision permite análise de imagens e geração baseada em análise
+### 1. **OpenAI DALL-E 2/3**
+- **Qualidade**: Excelente para realismo e criatividade
+- **Custo**: $0.020/imagem (1024x1024)
+- **Suporte**: Tamanhos específicos, quality settings
 
-### 2. **PiAPI Platform**
-- **Custo**: ~$0.009 por imagem
-- **Serviços**: Midjourney, Flux (txt2img, img2img, inpaint, upscale), Faceswap
-- **Vantagens**: Múltiplos modelos em uma API, webhooks, WebSocket para progresso
-- **Batch**: Até 10 imagens
+### 2. **PiAPI Platform**  
+- **Modelos**: Midjourney, Flux, Faceswap, Clean & Upscale
+- **Custo**: $0.009/imagem (Midjourney)
+- **Suporte**: Batch processing, webhooks, WebSocket
 
-### 3. **Stable-Diffusion.com**
-- **Custo**: $0.0067-$0.010 por imagem (mais barato do mercado)
-- **Modelos**: SD 1.5, SDXL, Realistic Vision, Anime, DreamShaper
-- **Vantagens**: ControlNet, upscaler 4x, face-fix, batch até 4 imagens
-- **Rate Limit**: 180-400 RPM
+## Configuração Rápida
+
+```bash
+# Variáveis de ambiente necessárias
+export OPENAI_API_KEY=sk-...
+export PIAPI_API_KEY=your_key...
+```
 
 ## API Endpoints
 
@@ -62,7 +57,7 @@ Authorization: Bearer YOUR_API_KEY
     {"prompt": "A cat playing piano", "width": 1024, "height": 1024},
     {"prompt": "A dog reading newspaper", "width": 1024, "height": 1024}
   ],
-  "provider_id": "stable_diffusion_default"
+  "provider_id": "piapi_default"
 }
 ```
 
@@ -134,13 +129,13 @@ Authorization: Bearer YOUR_API_KEY
   "width": 1024,
   "height": 1024,
   "num_images": 5,
-  "provider_id": "stable_diffusion_default"
+  "provider_id": "piapi_default"
 }
 
 Response:
 {
   "estimated_cost": 0.05,
-  "provider_id": "stable_diffusion_default",
+  "provider_id": "piapi_default",
   "num_images": 5
 }
 ```
@@ -155,8 +150,6 @@ OPENAI_API_KEY=sk-...
 # PiAPI
 PIAPI_API_KEY=piapi_...
 
-# Stable Diffusion
-STABLE_DIFFUSION_API_KEY=sd_...
 
 # Encryption key (gerada automaticamente)
 # Armazenada em videoai/.encryption_key
@@ -167,21 +160,18 @@ O sistema detecta automaticamente as API keys disponíveis e configura os proved
 
 - Se `OPENAI_API_KEY` existe → OpenAI como padrão
 - Se `PIAPI_API_KEY` existe → PiAPI como fallback
-- Se `STABLE_DIFFUSION_API_KEY` existe → SD como segundo fallback
 
 ### 3. Estratégia de Roteamento
 
 #### Por Qualidade/Estilo:
-- **Alta qualidade/Realismo**: OpenAI DALL-E 3 ou Stable Diffusion SDXL
+- **Alta qualidade/Realismo**: OpenAI DALL-E 3 ou PiAPI Flux
 - **Arte/Criatividade**: PiAPI Midjourney
-- **Anime/Manga**: Stable Diffusion com modelo Anything-v5
-- **Volume/Baixo custo**: Stable-Diffusion.com ou GetIMG.ai
+- **Volume/Baixo custo**: PiAPI ou GetIMG.ai
 
 #### Por Feature:
-- **ControlNet**: Stable-Diffusion.com
 - **Inpainting/Edição**: PiAPI Flux
 - **Faceswap**: PiAPI
-- **Upscaling**: Stable-Diffusion.com ou PiAPI
+- **Upscaling**: PiAPI
 
 ## Exemplos de Uso
 
@@ -229,23 +219,6 @@ response = requests.post(
             "service": "midjourney",
             "chaos": 50,
             "stylize": 1000
-        }
-    }
-)
-```
-
-### 4. ControlNet com Stable Diffusion
-```python
-response = requests.post(
-    "http://localhost:8000/api/v1/images/generate",
-    headers={"Authorization": "Bearer YOUR_API_KEY"},
-    json={
-        "prompt": "modern house, architectural photography",
-        "provider_id": "stable_diffusion_default",
-        "extra_params": {
-            "controlnet": True,
-            "controlnet_model": "canny",
-            "init_image": "base64_encoded_image_here"
         }
     }
 )

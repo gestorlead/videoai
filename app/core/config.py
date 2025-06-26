@@ -52,7 +52,6 @@ class Settings(BaseSettings):
     # AI Services configuration
     OPENAI_API_KEY: Optional[str] = None
     ANTHROPIC_API_KEY: Optional[str] = None
-    STABILITY_API_KEY: Optional[str] = None
     GOOGLE_API_KEY: Optional[str] = None
     
     # Social Media APIs

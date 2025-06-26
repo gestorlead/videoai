@@ -15,7 +15,7 @@ Target: Criadores de conteúdo, agências de marketing, empresas de mídia socia
 
 # Core Features  
 1. **AI Image Generation API**
-   - Integração com múltiplas APIs de geração (DALL-E, Midjourney, Stable Diffusion)
+   - Integração com múltiplas APIs de geração (DALL-E, Midjourney, PiAPI)
    - Prompts inteligentes e otimização automática
    - Geração em lote com diferentes estilos
    - Upscaling e pós-processamento automático
@@ -74,7 +74,7 @@ Target: Criadores de conteúdo, agências de marketing, empresas de mídia socia
 - **Cache/State**: Redis para job tracking e session management
 - **Database**: PostgreSQL para dados + MongoDB para media metadata
 - **Storage**: S3-compatible para assets gerados
-- **AI APIs**: OpenAI, Anthropic, Stability AI, Midjourney
+- **AI APIs**: OpenAI, Anthropic, PiAPI, Midjourney
 - **Social APIs**: YouTube, Instagram, TikTok, Facebook, Twitter/X
 
 ## System Components
@@ -97,7 +97,7 @@ Target: Criadores de conteúdo, agências de marketing, empresas de mídia socia
 
 - **Image Generation Service**
   - DALL-E 3 integration (primary)
-  - Stable Diffusion API integration (secondary)
+  - PiAPI Flux integration (secondary)
   - Prompt optimization engine
   - Image post-processing pipeline
 
@@ -221,7 +221,7 @@ Target: Criadores de conteúdo, agências de marketing, empresas de mídia socia
 # Appendix  
 
 ## AI Provider Integrations
-- **Images**: OpenAI DALL-E 3, Stability AI, Midjourney (when API available)
+- **Images**: OpenAI DALL-E 3, PiAPI, Midjourney (when API available)
 - **Translation**: GPT-4, Claude-3, specialized translation models
 - **Video**: Potential integration with RunwayML, Pika Labs
 - **Voice**: ElevenLabs, OpenAI TTS for dubbing

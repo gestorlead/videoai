@@ -14,7 +14,7 @@ VideoAI é uma plataforma completa para criação automatizada de conteúdo visu
 ## ✨ Core Features
 
 ### 🖼️ AI Image Generation
-- **Multiple Providers**: DALL-E 3, Stable Diffusion, PiAPI, Midjourney
+- **Multiple Providers**: DALL-E 3, PiAPI, Midjourney
 - **Intelligent Prompting**: Automated prompt optimization and enhancement
 - **Batch Processing**: High-throughput image generation capabilities
 - **Post-Processing**: Automatic upscaling, format conversion, and enhancement
@@ -50,7 +50,7 @@ VideoAI é uma plataforma completa para criação automatizada de conteúdo visu
 - **Task Queue**: RabbitMQ + Celery for distributed processing
 - **Cache & State**: Redis for job tracking and session management
 - **Database**: PostgreSQL for structured data + file storage
-- **AI Providers**: OpenAI, Anthropic, Stability AI, PiAPI
+- **AI Providers**: OpenAI, Anthropic, PiAPI
 - **Video Processing**: FFmpeg, MoviePy for media manipulation
 - **Social APIs**: Native integrations with major platforms
 - **Monitoring**: Prometheus + Grafana for observability

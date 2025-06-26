@@ -38,7 +38,7 @@ O Sistema de Tarefas de Mídia é uma arquitetura assíncrona unificada que supo
 
 | Tipo | Endpoint | Providers | Status |
 |------|----------|-----------|--------|
-| **Imagens** | `/v1/media/images/generate` | OpenAI DALL-E, Stability AI | ✅ |
+| **Imagens** | `/v1/media/images/generate` | OpenAI DALL-E, PiAPI | ✅ |
 | **Vídeos** | `/v1/media/videos/generate` | RunwayML, Pika Labs | ✅ |
 | **Áudio** | `/v1/media/audio/transcribe` | OpenAI Whisper, AssemblyAI | ✅ |
 | **Legendas** | `/v1/media/subtitles/generate` | OpenAI GPT, Custom NLP | ✅ |
@@ -70,7 +70,6 @@ REDIS_URL=redis://localhost:6379/0
 
 # API Keys (configure conforme provedores desejados)
 OPENAI_API_KEY=sk-...
-STABILITY_API_KEY=sk-...
 ASSEMBLYAI_API_KEY=...
 ```
 

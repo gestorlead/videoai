@@ -9,7 +9,6 @@ from sqlalchemy.orm import Session
 from .base_provider import BaseImageProvider, ImageGenerationRequest, ImageGenerationResponse
 from .openai_provider import OpenAIProvider
 from .piapi_provider import PiAPIProvider
-from .stablediffusion_provider import StableDiffusionProvider
 from ...models.image_provider import ImageProviderConfig, ProviderType
 from ...core.database import get_db
 
@@ -47,17 +46,6 @@ class ImageProviderManager:
             default_config={
                 "default_service": "midjourney",
                 "use_websocket": False
-            },
-            supports_batch=True,
-            supports_webhook=True
-        ),
-        ProviderType.STABLE_DIFFUSION: ProviderRegistry(
-            provider_class=StableDiffusionProvider,
-            name="Stable-Diffusion.com",
-            description="Cost-effective Stable Diffusion API with many models",
-            default_config={
-                "model_type": "sdxl",
-                "model_id": "stable-diffusion-xl-v1-0"
             },
             supports_batch=True,
             supports_webhook=True
@@ -137,8 +125,6 @@ class ImageProviderManager:
             provider_config.cost_per_image = 0.020  # DALL-E 2 1024x1024
         elif provider_type == ProviderType.PIAPI:
             provider_config.cost_per_image = 0.009  # Midjourney
-        elif provider_type == ProviderType.STABLE_DIFFUSION:
-            provider_config.cost_per_image = 0.010  # SDXL
         
         self.db.add(provider_config)
         self.db.commit()
@@ -333,7 +319,7 @@ class ImageProviderManager:
                 is_default=True
             )
         
-        # Adiciona outros se tiverem keys
+        # Adiciona PiAPI se tiver key
         piapi_key = os.getenv('PIAPI_API_KEY')
         if piapi_key:
             await self.create_provider_config(
@@ -342,14 +328,4 @@ class ImageProviderManager:
                 api_key=piapi_key,
                 config={"default_service": "midjourney"},
                 is_default=not bool(openai_key)  # Default se OpenAI não estiver configurado
-            )
-        
-        sd_key = os.getenv('STABLE_DIFFUSION_API_KEY')
-        if sd_key:
-            await self.create_provider_config(
-                provider_type=ProviderType.STABLE_DIFFUSION,
-                name="Stable Diffusion Default",
-                api_key=sd_key,
-                config={"model_type": "sdxl"},
-                is_default=not bool(openai_key) and not bool(piapi_key)
             )

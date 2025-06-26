@@ -137,7 +137,6 @@ uvicorn app.main:app --reload
 DATABASE_URL=postgresql://user:pass@localhost/videoai
 REDIS_URL=redis://localhost:6379/0
 OPENAI_API_KEY=sk-...
-STABILITY_API_KEY=sk-...
 ```
 
 ### **Verificação de Funcionamento**
@@ -171,7 +170,7 @@ python examples/media_tasks_example.py
 | **Examples** | 5/5 | 5 | 100% |
 
 ### **Cobertura de Tipos de Mídia**
-- ✅ **Imagens** (OpenAI DALL-E, Stability AI)
+- ✅ **Imagens** (OpenAI DALL-E, PiAPI)
 - ✅ **Vídeos** (RunwayML, Pika Labs)  
 - ✅ **Áudio** (OpenAI Whisper, AssemblyAI)
 - ✅ **Legendas** (OpenAI GPT, Custom NLP)

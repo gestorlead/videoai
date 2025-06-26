@@ -56,7 +56,6 @@ services:
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
       PIAPI_API_KEY: ${PIAPI_API_KEY:-}
-      STABLE_DIFFUSION_API_KEY: ${STABLE_DIFFUSION_API_KEY:-}
     volumes:
       - ./uploads:/app/uploads
       - ./temp:/app/temp

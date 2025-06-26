@@ -19,7 +19,7 @@ depends_on = None
 def upgrade():
     # Create enum type for provider types
     provider_type_enum = postgresql.ENUM(
-        'openai', 'piapi', 'stable_diffusion', 'getimg', 'replicate',
+        'openai', 'piapi', 'getimg', 'replicate',
         name='providertype'
     )
     provider_type_enum.create(op.get_bind())
@@ -27,7 +27,7 @@ def upgrade():
     # Create image_provider_configs table
     op.create_table('image_provider_configs',
         sa.Column('id', sa.String(), nullable=False),
-        sa.Column('provider_type', sa.Enum('openai', 'piapi', 'stable_diffusion', 'getimg', 'replicate', name='providertype'), nullable=False),
+        sa.Column('provider_type', sa.Enum('openai', 'piapi', 'getimg', 'replicate', name='providertype'), nullable=False),
         sa.Column('name', sa.String(), nullable=False),
         sa.Column('api_key', sa.String(), nullable=True),
         sa.Column('is_active', sa.Boolean(), default=True),
@@ -84,7 +84,7 @@ def downgrade():
     
     # Drop enum type
     provider_type_enum = postgresql.ENUM(
-        'openai', 'piapi', 'stable_diffusion', 'getimg', 'replicate',
+        'openai', 'piapi', 'getimg', 'replicate',
         name='providertype'
     )
     provider_type_enum.drop(op.get_bind())

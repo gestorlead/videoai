@@ -8,7 +8,6 @@ from .base_provider import (
 )
 from .openai_provider import OpenAIProvider
 from .piapi_provider import PiAPIProvider
-from .stablediffusion_provider import StableDiffusionProvider
 from .provider_manager import ImageProviderManager, ProviderRegistry
 
 __all__ = [
@@ -20,7 +19,6 @@ __all__ = [
     'InsufficientCreditsError',
     'OpenAIProvider',
     'PiAPIProvider',
-    'StableDiffusionProvider',
     'ImageProviderManager',
     'ProviderRegistry'
 ]

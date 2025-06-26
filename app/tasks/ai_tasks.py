@@ -11,7 +11,7 @@ from app.core.celery import celery_app
 @celery_app.task(bind=True, name="generate_image_with_ai")
 def generate_image_with_ai(self, prompt: str, model: str = "dall-e-3", **kwargs) -> Dict[str, Any]:
     """
-    Generate image using AI models (DALL-E, Stable Diffusion, etc.)
+    Generate image using AI models (DALL-E, PiAPI, etc.)
     """
     try:
         # Update task progress

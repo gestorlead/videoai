@@ -114,7 +114,7 @@ async def generate_image(
     
     Args:
         prompt: The text prompt for image generation
-        provider: AI provider to use (openai, stability, etc.)
+        provider: AI provider to use (openai, piapi, etc.)
         size: Output image dimensions
         
     Returns:

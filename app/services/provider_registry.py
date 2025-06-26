@@ -272,11 +272,10 @@ class ProviderRegistry:
     def _setup_default_providers(self):
         """Setup dos provedores padrão do sistema"""
         # Registra provedores fictícios para demonstração
-        # Em produção, estes seriam provedores reais como OpenAI, Stability AI, etc.
+        # Em produção, estes seriam provedores reais como OpenAI, PiAPI, etc.
         
         default_providers = [
             ("openai_dalle", ImageGenerationProvider, {"model": "dall-e-3"}),
-            ("stability_ai", ImageGenerationProvider, {"model": "stable-diffusion-xl"}),
             ("runwayml", VideoGenerationProvider, {"model": "gen-2"}),
             ("openai_whisper", AudioTranscriptionProvider, {"model": "whisper-1"}),
             ("assemblyai", AudioTranscriptionProvider, {"model": "best"}),

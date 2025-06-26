@@ -9,7 +9,6 @@ Base = declarative_base()
 class ProviderType(enum.Enum):
     OPENAI = "openai"
     PIAPI = "piapi" 
-    STABLE_DIFFUSION = "stable_diffusion"
     GETIMG = "getimg"
     REPLICATE = "replicate"
 

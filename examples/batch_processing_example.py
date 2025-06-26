@@ -162,7 +162,7 @@ async def example_2_provider_comparison():
         "style": "realistic"
     }
     
-    providers = ["openai", "piapi", "stable-diffusion"]
+    providers = ["openai", "piapi"]
     
     async with aiohttp.ClientSession() as session:
         jobs = {}
@@ -259,7 +259,7 @@ async def example_4_monitoring():
                 print(f"{provider}: {size} itens na fila")
         
         # Performance por provider
-        providers = ["openai", "piapi", "stable-diffusion"]
+        providers = ["openai", "piapi"]
         print(f"\n🔍 PERFORMANCE POR PROVIDER:")
         for provider in providers:
             perf = await get_provider_performance(session, provider)
