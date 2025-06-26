@@ -1,0 +1,44 @@
+# Dockerfile específico para VideoAI API (sem interface web)
+FROM python:3.8-slim
+
+# Instalar dependências do sistema
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    git \
+    postgresql-client \
+    curl \
+    netcat-traditional \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar VideoAI (dependência externa)
+RUN git clone https://github.com/agermanidis/videoai.git /opt/videoai
+RUN pip install --no-cache-dir -e /opt/videoai
+
+# Diretório de trabalho
+WORKDIR /app
+
+# Criar diretórios necessários
+RUN mkdir -p /app/uploads && chmod 777 /app/uploads
+RUN mkdir -p /app/src/static/uploads && chmod 777 /app/src/static/uploads
+
+# Copiar requirements primeiro (para cache do Docker)
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar código da aplicação
+COPY . /app/
+
+# Tornar scripts executáveis
+RUN chmod +x /app/entrypoint.sh /app/start-workers.sh /app/start-workers-docker.sh
+
+# Usar app_api_only.py em vez do app.py completo
+ENV FLASK_APP=app_api_only.py
+
+# Expor porta da API
+EXPOSE 5000
+
+# Usar entrypoint para executar migrations
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+# Comando padrão: apenas API
+CMD ["python", "app_api_only.py"] 

@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+
+{% block title %}Chaves de Acesso à API{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <h2><i class="fas fa-shield-alt"></i> Chaves de Acesso à API</h2>
+            <p class="text-muted">Gerencie suas chaves de autenticação para integrar sistemas externos com a API REST do AutoSub.</p>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <strong>Sobre essas chaves:</strong> Essas são suas chaves pessoais para <strong>autenticar requisições</strong> 
+                à nossa API REST. Não confundir com as configurações de APIs externas (Google, OpenAI) que ficam no servidor.
+            </div>
+            
+            <!-- Nova API Key Alert -->
+            {% if new_api_key %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h5><i class="fas fa-check-circle"></i> API Key criada com sucesso!</h5>
+                <p>Sua nova API key foi gerada. <strong>Copie agora</strong>, pois não será mostrada novamente:</p>
+                <div class="input-group">
+                    <input type="text" class="form-control font-monospace" 
+                           value="{{ new_api_key }}" readonly id="new-api-key">
+                    <button class="btn btn-outline-secondary" type="button" 
+                            onclick="copyToClipboard('new-api-key')">
+                        <i class="fas fa-copy"></i> Copiar
+                    </button>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endif %}
+
+            <!-- Criar Nova API Key -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-plus"></i> Criar Nova Chave de Acesso</h5>
+                    <form method="POST" action="{{ url_for('create_api_key') }}">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="name" 
+                                       placeholder="Nome descritivo (ex: Produção, Desenvolvimento)"
+                                       required minlength="3" maxlength="100">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Criar Chave
+                                </button>
+                            </div>
+                        </div>
+                        <small class="form-text text-muted">
+                            Use nomes descritivos para identificar onde cada chave será usada.
+                        </small>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Lista de API Keys -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list"></i> Suas Chaves de Acesso 
+                        <span class="badge bg-secondary">{{ api_keys|length }}/10</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if api_keys %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Chave</th>
+                                    <th>Status</th>
+                                    <th>Último Uso</th>
+                                    <th>Criada em</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for api_key in api_keys %}
+                                <tr>
+                                    <td><strong>{{ api_key.name }}</strong></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <code id="key-{{ api_key.id }}" data-masked="{{ api_key.get_masked_key() }}" data-full="">{{ api_key.get_masked_key() }}</code>
+                                            <button class="btn btn-sm btn-outline-primary ms-2" 
+                                                    onclick="toggleApiKey({{ api_key.id }})" 
+                                                    id="btn-{{ api_key.id }}" 
+                                                    title="Mostrar/Copiar chave">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if api_key.is_active %}
+                                        <span class="badge bg-success">Ativa</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Inativa</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if api_key.last_used_at %}
+                                        <small>{{ api_key.last_used_at.strftime('%d/%m/%Y %H:%M') }}</small>
+                                        {% else %}
+                                        <small class="text-muted">Nunca usada</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <small>{{ api_key.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <!-- Toggle Status -->
+                                            <form method="POST" 
+                                                  action="{{ url_for('toggle_api_key', key_id=api_key.id) }}" 
+                                                  style="display: inline;">
+                                                {% if api_key.is_active %}
+                                                <button type="submit" class="btn btn-warning" 
+                                                        title="Desativar">
+                                                    <i class="fas fa-pause"></i>
+                                                </button>
+                                                {% else %}
+                                                <button type="submit" class="btn btn-success" 
+                                                        title="Ativar">
+                                                    <i class="fas fa-play"></i>
+                                                </button>
+                                                {% endif %}
+                                            </form>
+                                            
+                                            <!-- Delete -->
+                                            <form method="POST" 
+                                                  action="{{ url_for('delete_api_key', key_id=api_key.id) }}" 
+                                                  style="display: inline;">
+                                                <button type="submit" class="btn btn-danger" 
+                                                        title="Excluir" 
+                                                        onclick="return confirm('Excluir API key \'{{ api_key.name }}\'?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-key fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">Nenhuma chave de acesso criada</h5>
+                        <p class="text-muted">Crie sua primeira chave para começar a usar a API.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Informações sobre uso -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5><i class="fas fa-info-circle"></i> Como usar suas Chaves de Acesso</h5>
+                    <p>Exemplo de requisição:</p>
+                    <pre class="bg-light p-2"><code>curl -X POST {{ request.url_root }}api/v1/audio/process \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: sua-api-key-aqui" \
+  -d '{"audio_url": "https://example.com/audio.mp3"}'</code></pre>
+                    
+                    <div class="alert alert-warning mt-3">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Importante:</strong> Mantenha suas chaves de acesso seguras. Não compartilhe em repositórios públicos.
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="{{ url_for('profile') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Perfil
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    element.select();
+    element.setSelectionRange(0, 99999);
+    
+    try {
+        document.execCommand('copy');
+        const button = element.nextElementSibling;
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+        button.classList.add('btn-success');
+        button.classList.remove('btn-outline-secondary');
+        
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.classList.remove('btn-success');
+            button.classList.add('btn-outline-secondary');
+        }, 2000);
+    } catch (err) {
+        console.error('Erro ao copiar: ', err);
+    }
+}
+
+function toggleApiKey(keyId) {
+    const keyElement = document.getElementById(`key-${keyId}`);
+    const btnElement = document.getElementById(`btn-${keyId}`);
+    const icon = btnElement.querySelector('i');
+    
+    // Se a chave já está revelada
+    if (keyElement.dataset.full && keyElement.textContent === keyElement.dataset.full) {
+        // Copiar para clipboard
+        navigator.clipboard.writeText(keyElement.dataset.full).then(() => {
+            // Feedback visual
+            const originalIcon = icon.className;
+            icon.className = 'fas fa-check';
+            btnElement.classList.remove('btn-outline-primary');
+            btnElement.classList.add('btn-success');
+            
+            setTimeout(() => {
+                icon.className = originalIcon;
+                btnElement.classList.remove('btn-success');
+                btnElement.classList.add('btn-outline-primary');
+            }, 2000);
+        }).catch(err => {
+            console.error('Erro ao copiar: ', err);
+            // Fallback para navegadores mais antigos
+            const textArea = document.createElement('textarea');
+            textArea.value = keyElement.dataset.full;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        });
+    } else {
+        // Revelar a chave
+        fetch(`/profile/api-keys/${keyId}/reveal`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.key) {
+                keyElement.dataset.full = data.key;
+                keyElement.textContent = data.key;
+                icon.className = 'fas fa-copy';
+                btnElement.title = 'Copiar chave';
+                
+                // Auto-ocultar após 10 segundos
+                setTimeout(() => {
+                    keyElement.textContent = keyElement.dataset.masked;
+                    icon.className = 'fas fa-eye';
+                    btnElement.title = 'Mostrar/Copiar chave';
+                }, 10000);
+            } else {
+                alert('Erro ao revelar chave de API');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao revelar chave de API');
+        });
+    }
+}
+</script>
+{% endblock %} 

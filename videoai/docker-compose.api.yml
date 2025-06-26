@@ -1,0 +1,125 @@
+version: '3.8'
+
+services:
+  # ===== API Service =====
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: videoai-api
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/videoai
+      - REDIS_URL=redis://redis:6379/0
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - CORS_ORIGINS=http://localhost:3000,https://videoai.com,https://app.videoai.com
+      - FLASK_ENV=production
+      - FLASK_DEBUG=false
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    volumes:
+      - uploads_data:/app/uploads
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - videoai-api-network
+
+  # ===== Workers Service =====
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: videoai-worker
+    command: ["python", "worker.py"]
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/videoai
+      - REDIS_URL=redis://redis:6379/0
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    volumes:
+      - uploads_data:/app/uploads
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - videoai-api-network
+
+  # ===== Database =====
+  db:
+    image: postgres:13
+    container_name: videoai-db
+    environment:
+      - POSTGRES_DB=videoai
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - videoai-api-network
+    # Remover exposição externa por segurança
+    # ports:
+    #   - "5432:5432"
+
+  # ===== Redis (Cache/Queue) =====
+  redis:
+    image: redis:7-alpine
+    container_name: videoai-redis
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - videoai-api-network
+
+  # ===== RabbitMQ (Message Queue) =====
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: videoai-rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "15672:15672"  # Management UI (opcional)
+    restart: unless-stopped
+    networks:
+      - videoai-api-network
+
+  # ===== Health Check Service =====
+  healthcheck:
+    image: curlimages/curl:latest
+    container_name: videoai-healthcheck
+    command: |
+      sh -c '
+        while true; do
+          curl -f http://api:5000/health || echo "API health check failed"
+          sleep 30
+        done
+      '
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - videoai-api-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
+  uploads_data:
+    driver: local
+
+networks:
+  videoai-api-network:
+    driver: bridge
+    name: videoai-api 
