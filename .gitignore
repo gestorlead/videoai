@@ -98,3 +98,10 @@ tmp/
 # Configuration overrides
 docker-compose.override.yml
 .env.override
+
+# Sensitive configuration files
+.env
+.cursor/mcp.json
+# API keys and secrets
+*.key
+secrets/
